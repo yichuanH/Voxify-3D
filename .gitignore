@@ -27,3 +27,10 @@ venv/
 .venv/
 
 .DS_Store
+
+# Allow website demo videos
+!static/videos/
+!static/videos/**
+
+!static/videos/
+!static/videos/**
