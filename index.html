@@ -1,316 +1,998 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Yi-Chuan Huang 黃怡川 — Personal Website</title>
-  <meta name="description" content="Yi-Chuan Huang — Ph.D. student at NYCU." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="DESCRIPTION META TAG">
+  <meta property="og:title" content="SOCIAL MEDIA TITLE TAG"/>
+  <meta property="og:description" content="SOCIAL MEDIA DESCRIPTION TAG TAG"/>
+  <meta property="og:url" content="URL OF THE WEBSITE"/>
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/image/your_banner_image.png" />
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+
+
+  <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">
+  <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="KEYWORDS SHOULD BE PLACED HERE">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title> Voxify3D </title>
+  <link rel="icon" type="image/x-icon" href="static/images/icon.png">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+
   <style>
-    :root{
-      --bg:#0b0c0f;           /* dark background */
-      --panel:#121319;        /* card bg */
-      --muted:#9aa4b2;        /* muted text */
-      --text:#e7ecf3;         /* primary text */
-      --accent:#8ec5ff;       /* links */
-      --chip:#1b1f2a;         /* pill bg */
-      --ring: rgba(142,197,255,.5);
-      --border: #202433;
+    .gradient-text {
+      background: linear-gradient(to top, #00e2d3, #00ccff); /* cyan to light blue/green */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
     }
-    @media (prefers-color-scheme: light){
-      :root{ --bg:#f7f9fc; --panel:#ffffff; --muted:#5b6372; --text:#0f1222; --accent:#0a66ff; --chip:#eef4ff; --ring:rgba(10,102,255,.25); --border:#e8edf5; }
-      body{ background-image: radial-gradient(40rem 40rem at 0% 0%, #eaf2ff 0, transparent 50%),
-                                 radial-gradient(40rem 40rem at 100% 0%, #fff1f1 0, transparent 50%);} }
-    *{ box-sizing:border-box }
-    html{ scroll-behavior:smooth }
-    body{ margin:0; font-family: Inter, "Noto Sans TC", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; color:var(--text); background:var(--bg); }
-    a{ color:var(--accent); text-decoration:none }
-    a:hover{ text-decoration:underline }
-    .container{ max-width:780px; margin:0 auto; padding:0px; }
-    header{ position:sticky; top:0; backdrop-filter: blur(10px); background: color-mix(in oklab, var(--bg) 85%, transparent); border-bottom:1px solid var(--border); z-index:10; }
-    .nav{ display:flex; align-items:center; gap:20px; height:64px }
-    .nav a{ color:var(--muted); font-weight:600 }
-    .nav a.active, .nav a:hover{ color:var(--text) }
-
-    .hero{ display:grid; grid-template-columns: 120px 1fr; gap:80px; align-items:center; padding:30px 0 12px }
-    .avatar{ width:150px; height:150px; border-radius:50%; object-fit:cover; border:0px solid var(--border); box-shadow: 0 0 0 6px var(--panel); }
-    .title{ font-size: clamp(28px, 4vw, 40px); line-height:1.1; margin:0 0 6px; font-weight:600 }
-    .subtitle{ margin:6px 0; color:var(--muted); font-size:15px }
-    .badges{ display:flex; flex-wrap:wrap; gap:10px; margin:12px 0 }
-    .badge{ display:inline-flex; align-items:center; gap:8px; background:var(--chip); border:1px solid var(--border); color:var(--text); padding:8px 12px; border-radius:999px; font-size:13px; }
-    .links{ display:flex; flex-wrap:wrap; gap:10px; margin-top:8px }
-    .btn{ display:inline-block; padding:10px 14px; border-radius:10px; border:1px solid var(--border); background:var(--panel); color:var(--text); font-weight:600 }
-    .btn:hover{ box-shadow:0 0 0 6px var(--ring) }
-
-    section{ margin:48px 0 24px }
-    h2{ margin:0 0 16px; font-size:22px }
-    p{ color:var(--text); line-height:1.7; font-size:16px }
-
-    .grid{ display:grid; gap:16px }
-    @media (min-width: 800px){ .grid.cols-2{ grid-template-columns: 1fr 1fr } }
-
-    .chips{ display:flex; flex-wrap:wrap; gap:10px }
-    .chip{ background:var(--chip); border:1px solid var(--border); color:var(--text); padding:8px 12px; border-radius:999px; font-size:14px }
-
-    .card{ background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:16px }
-    .pub{ display:grid; grid-template-columns: 120px 1fr; gap:14px; align-items:start }
-    .pub img{ width:120px; height:80px; object-fit:cover; border-radius:10px; border:1px solid var(--border) }
-    .pub h3{ margin:0 0 6px; font-size:18px }
-    .pub .meta{ color:var(--muted); font-size:14px; margin-bottom:8px }
-
-    .news ul{ list-style:none; padding:0; margin:0 }
-    .news li{ display:grid; grid-template-columns: 120px 1fr; gap:12px; padding:10px 12px; border-left:2px solid var(--border) }
-    .news li + li{ margin-top:6px }
-    .date{ color:var(--muted); font-weight:600 }
-
-    footer{ margin:48px 0 24px; color:var(--muted); text-align:center; font-size:14px }
-    .kbd{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background:var(--chip); border:1px solid var(--border); padding:.15rem .4rem; border-radius:6px }
-    .highlight {
-    color: #6c9c35; /* 抹茶綠 Matcha Green */
-    font-weight: 200;
-  }
-
-
-    .hero {
-    margin-bottom: 6px; /* Hero 下方間距更小 */
-    }
-    #about {
-      margin-top: 6px; /* About 上方間距更小 */
-    }
-
-        /* 讓 highlight 裡的連結保持抹茶綠但不粗體 */
-    .highlight a {
-      color: #6c9c35;     /* 抹茶綠 */
-      font-weight: normal; /* 不要粗體 */
-      text-decoration: none;
-    }
-
-    .highlight a:hover {
-      text-decoration: underline;
-    }
-
-    /* 若 .highlight 本身為粗體，也可這樣分開處理 */
-    .highlight {
-      color: #6c9c35;
-      font-weight: normal;
-    }
-
-    /* 讓一般的 <a> 保持原本的風格 */
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-
   </style>
 
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <!-- 放在 <head> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r148/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.148.0/examples/js/loaders/OBJLoader.js"></script>
+
+
+
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const lazyVideos = document.querySelectorAll("video[data-src]");
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const video = entry.target;
+            const source = document.createElement('source');
+            source.src = video.dataset.src;
+            source.type = "video/mp4";
+            video.appendChild(source);
+            video.load();
+            video.play();
+            observer.unobserve(video);
+          }
+        });
+      });
+
+      lazyVideos.forEach(video => {
+        observer.observe(video);
+      });
+    }
+  });
+</script>
 
 </head>
 <body>
 
 
-  <main class="container">
-    <!-- Hero -->
-    <section class="hero">
-      <img class="avatar" src="images/Me.JPG" alt="Avatar" />
-      <div>
-        <h1 class="title">Yi-Chuan Huang <span style="opacity:.8">黃怡川</span></h1>
-        <div class="subtitle">Ph.D. Student · Department of Computer Science </div>
-        <div class="subtitle">National Yang Ming Chiao Tung University (NYCU), Taiwan</div>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <div style="text-align: center;">
+              <img src="static/images/logo.png" alt="Voxify3D Logo" style="height: 80px; margin-bottom: 10px;">
+              <h1 class="title is-4 publication-title">
+                Voxify3D: Pixel Art Meets Volumetric Rendering
+              </h1>
+            </div>
+    
+            <!-- Authors -->
+            <div class="is-size-5 publication-authors" style="margin-top: 20px;">
+              <span class="author-block">
+                <a href="https://yichuanh.github.io/Personal-Page/" target="_blank">Yi-Chuan Huang</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="#" style="cursor: default; pointer-events: none; text-decoration: none;">Jiewen Chan</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="#" style="cursor: default; pointer-events: none; text-decoration: none;">Hao-Jen Chien</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://yulunalexliu.github.io/" target="_blank">Yu-Lun Liu</a><sup>1</sup>
+              </span>
+            </div>
 
-        <div class="badges">
-          <span class="badge" title="Email">📧 <a href="mailto:jay@example.com">yichuanh.cs12@nycu.edu.tw</a></span>
-          <a class="badge" href="CV/CV_Yi-Chuan_Huang.pdf" target="_blank">📄 CV</a>
-          <a class="badge" href="https://www.linkedin.com/in/yi-chuan-huang-59ba0a305/" target="_blank" rel="noopener">🔗 LinkedIn</a>
-          <a class="badge" href="https://github.com/yichuanH" target="_blank" rel="noopener">👩‍💻 GitHub</a>
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                         <!-- Arxiv PDF link -->
+                      <span class="link-block">
+                        <a href="https://arxiv.org/pdf/2512.07834" target="_blank"
+                        class="external-link button is-small is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
+                  <!-- Github link -->
+                  <span class="link-block">
+                    <a href="https://github.com/YOUR REPO HERE" target="_blank"
+                    class="external-link button is-small is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code (Coming Soon)</span>
+                  </a>
+                </span>
+
+                <!-- ArXiv abstract Link -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2512.07834" target="_blank"
+                  class="external-link button is-small is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <!-- About -->
-    <section id="about">
-      <div class="card">
-      <p>
-    I am a third-year Ph.D. student in Computer Science at 
-    <span class="highlight"><a href="https://www.nycu.edu.tw/nycu/en/index" target="_blank" rel="noopener">National Yang Ming Chiao Tung University (NYCU)</a></span>,  
-    advised by <span class="highlight"><a href="https://yulunalexliu.github.io/" target="_blank" rel="noopener">Prof. Yu-Lun Liu</a></span> 
-    at the Computational Photography Lab. My research focused on 3D Computer Vision and Generative Models.
-  </p>
 
-  <p>
-    Outside of work and research, I enjoy cooking🧑‍🍳, caring for animals🐱, and working out🏃.
-  </p>
-</div>
-    </section>
+<!-- Teaser video-->
+<section class="hero teaser">
+  <div class="container" style="max-width: 1280px;">
+    <div class="hero-body" style="padding-left: 0; padding-right: 0;">
 
-    <!-- Interests -->
-    <section id="interests">
-      <h2>Research Interests</h2>
-      <div class="chips">
-        <span class="chip">Computer Vision</span>
-        <span class="chip">3D Reconstruction</span>
-        <span class="chip">Neural Radiance Fields (NeRF)</span>
-        <span class="chip">3D Gaussian Splatting</span>
-        <span class="chip">Multi-view Diffusion Model</span>
-        <span class="chip">Novel View Synthesis</span>
-        <span class="chip">Generative AI</span>
-        <span class="chip">Object Generation & Editing</span>
+      <!-- Main video -->
+      <video poster="" id="tree" autoplay controls muted loop 
+             style="width: 100%; max-width: 1280px; margin: 0 auto; display: block;">
+        <source src="static/videos/voxify.mp4" type="video/mp4">
+      </video>
+
+
+      <!-- Gallery wrapper (for relative positioning) -->
+      <div style="position: relative; margin-top: 2rem;">
+
+        <!-- Left button (absolute positioned) -->
+        <button class="button is-small is-rounded" 
+                onclick="prevTeaserPage()"
+                style="position: absolute; top: 40%; left: -2rem; z-index: 10;">◀</button>
+
+        <!-- Right button (absolute positioned) -->
+        <button class="button is-small is-rounded" 
+                onclick="nextTeaserPage()"
+                style="position: absolute; top: 40%; right: -2rem; z-index: 10;">▶</button>
+
+        <!-- Gallery -->
+        <div id="teaser-gallery">
+                   <!-- Page 3 -->
+                   <div class="columns is-mobile is-multiline is-centered teaser-page" style="display: none;">
+                    <!-- 同上，放其他影片 -->
+                    <div class="column is-one-fifth has-text-centered">
+                      <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                        <source src="static/videos/redpanda/redpanda_ori.mp4" type="video/mp4">
+                      </video>
+                      <p class="is-size-7" style="margin-top: 0.5rem;">Original Mesh</p>
+                    </div>
+                    <div class="column is-one-fifth has-text-centered">
+                      <video id="redpandaVideo" autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                        <source src="static/videos/redpanda/redpanda_voxe.mp4" type="video/mp4">
+                      </video>
+                      
+                      <p class="is-size-7" style="margin-top: 0.5rem;">Vox-E</p>
+                    </div>
+                    <div class="column is-one-fifth has-text-centered">
+                      <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                        <source src="static/videos/redpanda/redpanda_gem.mp4" type="video/mp4">
+                      </video>
+                      <p class="is-size-7" style="margin-top: 0.5rem;">Gemini3</p>
+                    </div>
+                    <div class="column is-one-fifth has-text-centered">
+                      <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                        <source src="static/videos/redpanda/redpanda_blender.mp4" type="video/mp4">
+                      </video>
+                      <p class="is-size-7" style="margin-top: 0.5rem;">Blender Voxel</p>
+                    </div>
+                    <div class="column is-one-fifth has-text-centered">
+                      <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                        <source src="static/videos/redpanda/redpanda_ours.mp4" type="video/mp4">
+                      </video>
+                      <p class="is-size-7" style="margin-top: 0.5rem;">Ours (Voxify3D)</p>
+                    </div>
+                  </div>
+
+                  <!-- Page 3 -->
+                  <div class="columns is-mobile is-multiline is-centered teaser-page" style="display: none;">
+                    <!-- 同上，放其他影片 -->
+                    <div class="column is-one-fifth has-text-centered">
+                      <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                        <source src="static/videos/doge/doge_ori.mp4" type="video/mp4">
+                      </video>
+                      <p class="is-size-7" style="margin-top: 0.5rem;">Original Mesh</p>
+                    </div>
+                    <div class="column is-one-fifth has-text-centered">
+                      <video id="dogeVideo" autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                        <source src="static/videos/doge/doge_voxe.mp4" type="video/mp4">
+                      </video>
+                      
+                      <p class="is-size-7" style="margin-top: 0.5rem;">Vox-E</p>
+                    </div>
+                    <div class="column is-one-fifth has-text-centered">
+                      <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                        <source src="static/videos/doge/doge_gem.mp4" type="video/mp4">
+                      </video>
+                      <p class="is-size-7" style="margin-top: 0.5rem;">Gemini3</p>
+                    </div>
+                    <div class="column is-one-fifth has-text-centered">
+                      <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                        <source src="static/videos/doge/doge_blen.mp4" type="video/mp4">
+                      </video>
+                      <p class="is-size-7" style="margin-top: 0.5rem;">Blender Voxel</p>
+                    </div>
+                    <div class="column is-one-fifth has-text-centered">
+                      <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                        <source src="static/videos/doge/doge_ours.mp4" type="video/mp4">
+                      </video>
+                      <p class="is-size-7" style="margin-top: 0.5rem;">Ours (Voxify3D)</p>
+                    </div>
+                  </div>
+    
+                <!-- Page 2 -->
+                       <div class="columns is-mobile is-multiline is-centered teaser-page" style="display: none;">
+                        <!-- 同上，放其他影片 -->
+                        <div class="column is-one-fifth has-text-centered">
+                          <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                            <source src="static/videos/stichy/stichy_ori.mp4" type="video/mp4">
+                          </video>
+                          <p class="is-size-7" style="margin-top: 0.5rem;">Original Mesh</p>
+                        </div>
+                        <div class="column is-one-fifth has-text-centered">
+                          <video id="stichyVideo" autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                            <source src="static/videos/stichy/stichy_voxe.mp4" type="video/mp4">
+                          </video>
+                          
+                          <p class="is-size-7" style="margin-top: 0.5rem;">Vox-E</p>
+                        </div>
+                        <div class="column is-one-fifth has-text-centered">
+                          <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                            <source src="static/videos/stichy/stichy_gem.mp4" type="video/mp4">
+                          </video>
+                          <p class="is-size-7" style="margin-top: 0.5rem;">Gemini3</p>
+                        </div>
+                        <div class="column is-one-fifth has-text-centered">
+                          <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                            <source src="static/videos/stichy/stichy_blen.mp4" type="video/mp4">
+                          </video>
+                          <p class="is-size-7" style="margin-top: 0.5rem;">Blender Voxel</p>
+                        </div>
+                        <div class="column is-one-fifth has-text-centered">
+                          <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                            <source src="static/videos/stichy/stichy_ours.mp4" type="video/mp4">
+                          </video>
+                          <p class="is-size-7" style="margin-top: 0.5rem;">Ours (Voxify3D)</p>
+                        </div>
         
+                      </div>
 
+
+              <!-- Page 4 -->
+              <div class="columns is-mobile is-multiline is-centered teaser-page" style="display: none;">
+                <!-- 同上，放其他影片 -->
+                <div class="column is-one-fifth has-text-centered">
+                  <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                    <source src="static/videos/dragon/Dragon_ori.mp4" type="video/mp4">
+                  </video>
+                  <p class="is-size-7" style="margin-top: 0.5rem;">Original Mesh</p>
+                </div>
+                <div class="column is-one-fifth has-text-centered">
+                  <video id="dragonVideo" autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                    <source src="static/videos/dragon/Dragon_voxe.mp4" type="video/mp4">
+                  </video>
+                  
+                  <p class="is-size-7" style="margin-top: 0.5rem;">Vox-E</p>
+                </div>
+                <div class="column is-one-fifth has-text-centered">
+                  <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                    <source src="static/videos/dragon/Dragon_gem.mp4" type="video/mp4">
+                  </video>
+                  <p class="is-size-7" style="margin-top: 0.5rem;">Gemini3</p>
+                </div>
+                <div class="column is-one-fifth has-text-centered">
+                  <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                    <source src="static/videos/dragon/Dragon_blender.mp4" type="video/mp4">
+                  </video>
+                  <p class="is-size-7" style="margin-top: 0.5rem;">Blender Voxel</p>
+                </div>
+                <div class="column is-one-fifth has-text-centered">
+                  <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                    <source src="static/videos/dragon/dragon_ours.mp4" type="video/mp4">
+                  </video>
+                  <p class="is-size-7" style="margin-top: 0.5rem;">Ours (Voxify3D)</p>
+                </div>
+              </div>
+
+                  <!-- Page 4 -->
+                  <div class="columns is-mobile is-multiline is-centered teaser-page" style="display: none;">
+                    <!-- 同上，放其他影片 -->
+                    <div class="column is-one-fifth has-text-centered">
+                      <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                        <source src="static/videos/squirel/squirel_ori.mp4" type="video/mp4">
+                      </video>
+                      <p class="is-size-7" style="margin-top: 0.5rem;">Original Mesh</p>
+                    </div>
+                    <div class="column is-one-fifth has-text-centered">
+                      <video id="squirrelVideo" autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                        <source src="static/videos/squirel/squirel_voxe.mp4" type="video/mp4">
+                      </video>
+                      
+                      <p class="is-size-7" style="margin-top: 0.5rem;">Vox-E</p>
+                    </div>
+                    <div class="column is-one-fifth has-text-centered">
+                      <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                        <source src="static/videos/squirel/squirel_gem.mp4" type="video/mp4">
+                      </video>
+                      <p class="is-size-7" style="margin-top: 0.5rem;">Gemini3</p>
+                    </div>
+                    <div class="column is-one-fifth has-text-centered">
+                      <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                        <source src="static/videos/squirel/squirel_blen.mp4" type="video/mp4">
+                      </video>
+                      <p class="is-size-7" style="margin-top: 0.5rem;">Blender Voxel</p>
+                    </div>
+                    <div class="column is-one-fifth has-text-centered">
+                      <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+                        <source src="static/videos/squirel/squirel_ours.mp4" type="video/mp4">
+                      </video>
+                      <p class="is-size-7" style="margin-top: 0.5rem;">Ours (Voxify3D)</p>
+                    </div>
+                  </div>
+
+                                    <!-- 指示器容器（點點＋數字） -->
+                  <div style="text-align:center; margin-top:1rem;">
+                    <div id="teaser-dots"></div>
+                    <div id="teaser-counter" style="margin-top:0.5rem; font-size:0.9rem;">
+                      <span id="current-page">1</span> / <span id="total-pages">1</span>
+                    </div>
+                  </div>
+
+                  <script>
+                  (function () {
+                    // ====== 抓元素 ======
+                    const pages = Array.from(document.querySelectorAll("#teaser-gallery .teaser-page"));
+                    const dotsContainer = document.getElementById("teaser-dots");
+                    const totalPagesEl = document.getElementById("total-pages");
+                    const currentPageEl = document.getElementById("current-page");
+
+                    if (!pages.length) { console.warn("[teaser] 沒抓到 .teaser-page"); return; }
+                    if (!dotsContainer) { console.warn("[teaser] 沒抓到 #teaser-dots"); return; }
+
+                    // ====== 生成 dots ======
+                    pages.forEach((_, i) => {
+                      const dot = document.createElement("span");
+                      dot.className = "dot";
+                      dot.style.cssText = "height:10px;width:10px;margin:0 4px;background:#bbb;border-radius:50%;display:inline-block;cursor:pointer;vertical-align:middle;";
+                      dot.addEventListener("click", () => renderPage(i));
+                      dotsContainer.appendChild(dot);
+                    });
+                    const dots = dotsContainer.querySelectorAll(".dot");
+
+                    // ====== 狀態與渲染 ======
+                    let currentPage = 0;
+
+                    function renderPage(n) {
+                      // 隱藏舊頁、復原舊 dot
+                      pages[currentPage].style.display = "none";
+                      if (dots[currentPage]) dots[currentPage].style.background = "#bbb";
+
+                      // 環狀換頁
+                      currentPage = (n + pages.length) % pages.length;
+
+                      // 顯示新頁、點亮新 dot、更新數字
+                      pages[currentPage].style.display = "flex";            // Bulma columns 用 flex
+                      if (dots[currentPage]) dots[currentPage].style.background = "#3273dc"; // Bulma 藍
+                      if (currentPageEl) currentPageEl.textContent = String(currentPage + 1);
+                    }
+
+                    // ====== 對接左右按鈕（onclick 用） ======
+                    window.nextTeaserPage = () => renderPage(currentPage + 1);
+                    window.prevTeaserPage = () => renderPage(currentPage - 1);
+
+                    // ====== 初始化 ======
+                    pages.forEach(p => p.style.display = "none");
+                    pages[0].style.display = "flex";
+                    if (dots[0]) dots[0].style.background = "#3273dc";
+                    if (totalPagesEl) totalPagesEl.textContent = String(pages.length);
+                    if (currentPageEl) currentPageEl.textContent = "1";
+
+                    //（可選）鍵盤左右切換
+                    document.addEventListener("keydown", (e) => {
+                      if (e.key === "ArrowRight") window.nextTeaserPage();
+                      if (e.key === "ArrowLeft") window.prevTeaserPage();
+                    });
+
+                    // ====== 統一設定影片播放速度（把頁內小 <script> 全刪掉，用這裡代替） ======
+                    ["redpandaVideo", "dogeVideo", "stichyVideo","dragonVideo", "squirrelVideo"].forEach(id => {
+                      const v = document.getElementById(id);
+                      if (v) v.playbackRate = 0.6;
+                    });
+
+                    // ====== 小診斷（可留） ======
+                    console.log("[teaser] pages =", pages.length, "dots =", dots.length);
+                  })();
+                  </script>
+ 
+        </div>
       </div>
-    </section>
-
-  <!-- News -->
-<section id="news" class="news">
-  <h2>News</h2>
-  <div class="card">
-    <ul>
-      <li><div class="date">Nov. 2025</div><div>Paper accepted to <strong>WACV 2025</strong>: “Splannequin”. 🎉</div></li>
-      <!-- <li><div class="date">Sep. 2025</div><div><strong>Voxify3D</strong> project page released! 🧸</div></li> -->
-      <li><div class="date">Jun. 2025</div><div>Served as a <strong>reviewer</strong> for <strong>Pacific Graphics 2025 (PG 2025)</strong>.</div></li>
-      <li><div class="date">Mar. 2025</div><div>Paper accepted to <strong>CVPR 2025</strong>: “AuraFusion360”. 🎉</div></li>
-      <li><div class="date">Sep. 2024</div><div>Awarded <strong>Outstanding Teaching Assistant</strong> for the course <strong>Signals and Systems</strong>. 📶</div></li>
-      <li><div class="date">Jun. 2024</div><div>Passed <strong>Ph.D. Qualification</strong> and officially became a <strong>Ph.D. Candidate </strong>. 🧑‍🎓</div></li>
-      <li><div class="date">Sep. 2023</div><div>Joined the <strong>Computational Photography Lab</strong> at NYCU as a <strong>Ph.D. student</strong>. 📖</div></li>
-    </ul>
+    </div>
   </div>
 </section>
 
 
-<!-- Publications -->
-<section id="publications">
-  <h2>Publications</h2>
 
-
-  <article class="card pub">
-  <img class="avatar" src="images/Splannequin.png" alt="llama" />     <div>
-      <h3>Splannequin: Freezing Monocular Mannequin-Challenge Footage with Dual-Detection Splatting</h3>
-      <div class="meta">Hao-Jen Chien, <span class="highlight">Yi-Chuan Huang</span>, Chung-Ho Wu, Wei-Lun Chao, Yu-Lun Liu </div>
-      <strong><span style="color: rgb(41, 129, 41); font-weight: bold;">WACV 2025</span></strong>
-
-      <p>Splannequin freezes dynamic Gaussian splats into crisp 3D scenes from monocular videos by anchoring artifacts to more reliable temporal states.</p>
-      <div class="links">
-        <a class="btn" href="https://chien90190.github.io/splannequin/" target="_blank" rel="noopener">Project Page</a>
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-4 gradient-text" style="font-weight: 800;">Abstract</h2>
+        <div class="content has-text-justified">
+          <p style="font-size: 0.9rem;">
+            Stylized voxel art is widely used in games and digital media, but turning 3D meshes into visually appealing voxel forms remains challenging and often requires manual effort. Existing methods struggle to preserve semantic structure and offer limited control over stylization, particularly in discrete color and abstraction. We present Voxify3D, a differentiable two-stage framework for generating stylized voxel art from 3D meshes. In the first stage, we initialize a coarse voxel grid via neural volume rendering. In the second stage, we refine the grid under six-view orthographic pixel art supervision, guided by a discrete color palette derived from clustering strategies (e.g., K-means, Max-Min, Median Cut). To support differentiable palette-based quantization, we design a rendering mechanism based on Gumbel-Softmax and incorporate a CLIP-based perceptual loss to enforce semantic alignment between voxel renderings and the original mesh.          </p>
+        </div>
       </div>
-    </div>
-  </article>
-
-
-
-
-  <article class="card pub">
-  <video autoplay muted loop playsinline
-    style="width:120px; height:80px; object-fit:cover; border-radius:10px; border:1px solid var(--border);">
-    <source src="videos/aurafusion360-teaser.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>    <div>
-      <h3>AuraFusion360: Augmented Unseen Region Alignment for Reference-based 360° Unbounded Scene Inpainting </h3>
-      <div class="meta">Chung-Ho Wu*, Yang-Jung Chen*, Ying-Huan Chen, Jie‑Ying Lee, Bo-Hsu Ke, Chun-Wei Tuan Mu, <span class="highlight">Yi-Chuan Huang</span>, Chin-Yang Lin, Min-Hung Chen, Yen-Yu Lin, Yu-Lun Liu (*Equal Contribution) ·</div>
-      <strong><span style="color: rgb(41, 129, 41); font-weight: bold;">CVPR 2025</span></strong>
-      <p>Introduces depth-aware unseen mask generation, Adaptive Guided Depth Diffusion (zero-shot), and SDEdit-based detail enhancement for multi-view coherence.</p>
-      <div class="links">
-        <a class="btn" href="#" target="_blank" rel="noopener">Paper</a>
-        <a class="btn" href="#" target="_blank" rel="noopener">Code</a>
-        <a class="btn" href="https://kkennethwu.github.io/aurafusion360/" target="_blank" rel="noopener">Project Page</a>
-      </div>
-    </div>
-  </article>
-
-  <!----
-<article class="card pub">
-  <video autoplay muted loop playsinline
-    style="width:120px; height:80px; object-fit:cover; border-radius:10px; border:1px solid var(--border);">
-    <source src="videos/redpanda_ours.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
-  <div>
-    <h3>Voxify3D: From Mesh to Voxel Art with Palette Discretization and Semantic Guidance</h3>
-    <div class="meta"><span class="highlight">Yi-Chuan Huang</span>, Jie-Wen Chen, Chris Chein, Yu-Lun Liu · <strong>( under review, ICLR 2026 )</strong></div>
-    <p>Voxify3D is a differentiable framework that transforms 3D meshes into stylized voxel art by optimizing a voxel grid under six-view pixel art supervision with palette-based color quantization.</p>
-    <div class="links">
-      <a class="btn" href="https://sga-demo2025.github.io/Voxify3D/" target="_blank" rel="noopener">Project Page</a>
     </div>
   </div>
-</article>
+</section>
+<!-- End paper abstract -->
 
-<article class="card pub">
-  <video autoplay muted loop playsinline
-    style="width:120px; height:80px; object-fit:cover; border-radius:10px; border:1px solid var(--border);">
-    <source src="videos/fov.mov" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
-    <div>
-    <h3>FOV-Outpainter: Training with Extrapolated Views Beats Novel View Generation</h3>
-    <div class="meta"><span class="highlight">Yi-Chuan Huang</span>, Yu-Lun Liu · <strong>( under submission, CVPR 2026 )</strong></div>
-    <p>FOV-Outpainter uses zero-shot multi-view diffusion to expand the training field-of-view, achieving better 3D reconstruction and novel view synthesis without increasing the number of input views.</p>
+
+<!-- Pipeline Section -->
+<section class="section hero is-white">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-4 gradient-text" style="font-weight: 800;">Pipeline</h2>
+
+        <figure class="image" style="width: 100%; margin: 0 auto 1rem;">
+          <img src="static/images/pipeline.png" alt="Voxify3D Pipeline Overview" style="width: 100%; height: auto;">
+          </figure>
+        
+        <div class="content has-text-justified">
+          <p style="font-size: 0.9rem;">
+            Our two-stage voxel art generation pipeline.
+            (a) Coarse voxel grid training: Given a 3D mesh, we render multi-view images and optimize a voxel-based radiance field (DVGO [Sun et al. 2022]) using MSE loss to learn coarse geometry and appearance.
+            (b) Orthographic pixel art fine-tuning: We refine the voxel grid using six orthographic pixel art views, which also serve to extract a discrete color palette (e.g., via k-means). Optimization includes appearance, depth, and alpha losses.
+            (c) CLIP-guided optimization: A CLIP loss computed over rendered patches and mesh images encourages semantic alignment while being memory-efficient.
+            (d) Differentiable discrete color selection via Gumbel-Softmax: Each voxel stores palette logits. Gumbel-Softmax enables differentiable sampling for end-to-end color optimization, yielding coherent, stylized voxel art.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section hero has-background-light">
+  <div class="container is-max-desktop" style="padding: 0 0rem;">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-4 gradient-text" style="font-weight: 800;">Result Gallery</h2>
+      </div>
+    </div>
+
+    <!-- Palette -->
+    <div class="columns is-centered">
+      <div class="column is-full has-text-centered">
+        <h3 class="title is-5" style="margin-top: 2rem;">Color Palette</h3>
+      </div>
+    </div>
+    <div id="palette-container" class="columns is-multiline is-centered gallery-page" style="display: flex; flex-wrap: wrap;">
+    </div>
+
+    <!-- 分隔線 -->
+    <hr style="border: none; border-top: 1px solid #ccc; margin: 3rem 0;">
+
+    <!-- Palette Size -->
+    <div class="columns is-centered">
+      <div class="column is-full has-text-centered">
+        <h3 class="title is-5" style="margin-top: 0rem;">Palette Size</h3>
+      </div>
+    </div>
+    <div id="size-container" class="columns is-multiline is-centered gallery-page" style="display: flex; flex-wrap: wrap;">
+    </div>
+
+    <!-- 分隔線 -->
+    <hr style="border: none; border-top: 1px solid #ccc; margin: 3rem 0;">
+
+    <!-- Voxel Size -->
+    <div class="columns is-centered">
+      <div class="column is-full has-text-centered">
+        <h3 class="title is-5" style="margin-top: 0rem;">Voxel Size</h3>
+      </div>
+    </div>
+    <div id="voxel-container" class="columns is-multiline is-centered gallery-page" style="display: flex; flex-wrap: wrap;">
+    </div>
+  </div>
+</section>
+
+<script>
+  const videoData = {
+    palette: [
+      { src: "static/videos/gallery/Dog/Dog_ori.mp4", label: "Input" },
+      { src: "static/videos/gallery/Dog/Dog_kmeans.mp4", label: "K-means" },
+      { src: "static/videos/gallery/Dog/Dog_median.mp4", label: "Median-cut" },
+      { src: "static/videos/gallery/Dog/Dog_maxmin.mp4", label: "Max-min" },
+      { src: "static/videos/gallery/Dog/Dog_sa.mp4", label: "Simulated-Annealing" },
+      { src: "static/videos/gallery/sloth/sloth_ori.mp4", label: "Input" },
+      { src: "static/videos/gallery/sloth/sloth_kmeans.mp4", label: "K-means" },
+      { src: "static/videos/gallery/sloth/sloth_median.mp4", label: "Median-cut" },
+      { src: "static/videos/gallery/sloth/sloth_maxmin.mp4", label: "Max-min" },
+      { src: "static/videos/gallery/sloth/sloth_sa.mp4", label: "Simulated-Annealing" },
+      { src: "static/videos/gallery/ELF/ELF_ori.mp4", label: "Input" },
+      { src: "static/videos/gallery/ELF/ELF_kmeans.mp4", label: "K-means" },
+      { src: "static/videos/gallery/ELF/ELF_median.mp4", label: "Median-cut" },
+      { src: "static/videos/gallery/ELF/ELF_maxmin.mp4", label: "Max-min" },
+      { src: "static/videos/gallery/ELF/ELF_sa.mp4", label: "Simulated-Annealing" },
+    ],
+    voxel: [
+      { src: "static/videos/gallery/cat/cat_ori.mp4", label: "Input" },
+      { src: "static/videos/gallery/cat/cat_25.mp4", label: "25x" },
+      { src: "static/videos/gallery/cat/cat_30.mp4", label: "30x" },
+      { src: "static/videos/gallery/cat/cat_40.mp4", label: "40x" },
+      { src: "static/videos/gallery/cat/cat_50.mp4", label: "50x" },
+      { src: "static/videos/gallery/snow_mountain/snow_mountain_ori.mp4", label: "Input" },
+      { src: "static/videos/gallery/snow_mountain/snow_mountain_20.mp4", label: "20x" },
+      { src: "static/videos/gallery/snow_mountain/snow_mountain_25.mp4", label: "25x" },
+      { src: "static/videos/gallery/snow_mountain/snow_mountain_40.mp4", label: "40x" },
+      { src: "static/videos/gallery/snow_mountain/snow_mountain_50.mp4", label: "50x" },
+      { src: "static/videos/gallery/mushroom/mushroom_ori.mp4", label: "Input" },
+      { src: "static/videos/gallery/mushroom/mushroom_ours_20.mp4", label: "20x" },
+      { src: "static/videos/gallery/mushroom/mushroom_ours_25.mp4", label: "25x" },
+      { src: "static/videos/gallery/mushroom/mushroom_ours_40.mp4", label: "40x" },
+      { src: "static/videos/gallery/mushroom/mushroom_ours_50.mp4", label: "50x" },
+    ],
+    size: [
+      { src: "static/videos/gallery/tiger/tiger_ori.mp4", label: "Input" },
+      { src: "static/videos/gallery/tiger/tiger_2.mp4", label: "2 colors" },
+      { src: "static/videos/gallery/tiger/tiger_3.mp4", label: "3 colors" },
+      { src: "static/videos/gallery/tiger/tiger_4.mp4", label: "4 colors" },
+      { src: "static/videos/gallery/tiger/tiger_8.mp4", label: "8 colors" },
+      { src: "static/videos/gallery/purple_bear/purple_bear_ori.mp4", label: "Input" },
+      { src: "static/videos/gallery/purple_bear/purple_bear_2.mp4", label: "2 colors" },
+      { src: "static/videos/gallery/purple_bear/purple_bear_3.mp4", label: "3 colors" },
+      { src: "static/videos/gallery/purple_bear/purple_bear_4.mp4", label: "4 colors" },
+      { src: "static/videos/gallery/purple_bear/purple_bear_8.mp4", label: "8 colors" },
+      { src: "static/videos/gallery/owl/owl_ori.mp4", label: "Input" },
+      { src: "static/videos/gallery/owl/owl_ours_2.mp4", label: "2 colors" },
+      { src: "static/videos/gallery/owl/owl_ours_3.mp4", label: "3 colors" },
+      { src: "static/videos/gallery/owl/owl_ours_4.mp4", label: "4 colors" },
+      { src: "static/videos/gallery/owl/owl_ours_8.mp4", label: "8 colors" },
+      
+    ],
+  };
+
+  // 動態插入影片
+  function renderVideos(containerId, videoList) {
+    const container = document.getElementById(containerId);
+    videoList.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'column is-one-fifth has-text-centered';
+      div.innerHTML = `
+        <video autoplay muted loop playsinline style="width: 100%; aspect-ratio: 1/1; object-fit: cover;">
+          <source src="${item.src}" type="video/mp4">
+        </video>
+        <p class="is-size-6" style="margin-top: 0.5rem;">${item.label}</p>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  // 呼叫
+  renderVideos('palette-container', videoData.palette);
+  renderVideos('size-container', videoData.size);
+  renderVideos('voxel-container', videoData.voxel);
+</script>
+
+
+<!-- Interactable Meshes Section -->
+<section class="section hero is-white" style="width: 100vw; padding-left: 18vw; padding-right: 18vw;">
+  <div class="container is-max-desktop" style="padding: 0 0rem;">
+      <div class="column">
+      <h2 class="title is-4 gradient-text" style="font-weight: 800;">Interactable Meshes</h2>
+    </div>
+  </div>
+
+  <!-- Viewer Grid -->
+  <div id="viewer-grid" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1.5rem;">
+  
+    <!-- Viewer 1 -->
+    <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+      <model-viewer 
+        src="static/models/parrot/parrot_ori.glb"
+        alt="Our Parrot"
+        auto-rotate camera-controls 
+        orientation="180deg 270deg 0deg"
+        style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+      </model-viewer>
+      <p class="is-size-6">Input</p>
+    </div>
+
+    <!-- Viewer 2 -->
+    <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+      <model-viewer 
+      src="static/models/parrot/parrot_ours.glb"
+      alt="Baseline"
+      orientation="180deg 270deg 0deg"
+      style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+    </model-viewer>
+      <p class="is-size-6">Ours</p>
+    </div>
+
+    <!-- Viewer 1 -->
+    <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+      <model-viewer 
+        src="static/models/Pikachu/Pikachu.glb"
+        alt="Our Parrot"
+        auto-rotate camera-controls 
+        style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+      </model-viewer>
+      <p class="is-size-6">Input</p>
+    </div>
+      <!-- Viewer 2 -->
+      <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+        <model-viewer 
+        src="static/models/Pikachu/Pikachu_ours2.glb"
+        alt="Baseline"
+        style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+      </model-viewer>
+        <p class="is-size-6">Ours</p>
+      </div>
+
+
+        <!-- Viewer 1 -->
+        <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+          <model-viewer 
+            src="static/models/labubu/labubu.glb"
+            alt="Our Parrot"
+            auto-rotate camera-controls 
+            
+            style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+          </model-viewer>
+          <p class="is-size-6">Input</p>
+        </div>
+    
+        <!-- Viewer 2 -->
+        <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+          <model-viewer 
+          src="static/models/labubu/labubu_ours.glb"
+          
+          alt="Baseline"          orientation="180deg 270deg 0deg"
+          style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+        </model-viewer>
+          <p class="is-size-6">Ours</p>
+        </div>
+    
+            <!-- Viewer 1 -->
+            <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+              <model-viewer 
+                src="static/models/bunny/bunny.glb"
+                alt="Our Parrot"
+                auto-rotate camera-controls 
+                style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+              </model-viewer>
+              <p class="is-size-6">Input</p>
+            </div>
+        
+            <!-- Viewer 2 -->
+            <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+              <model-viewer 
+              src="static/models/bunny/bunny_ours2.glb"
+              alt="Baseline"
+              style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+            </model-viewer>
+              <p class="is-size-6">Ours</p>
+            </div>
+
+                <!-- Viewer 1 -->
+            <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+              <model-viewer 
+                src="static/models/polar_bear/polar_bear.glb"
+                alt="Our Parrot"
+                auto-rotate camera-controls 
+                orientation="0deg 0deg 0deg"
+                style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+              </model-viewer>
+              <p class="is-size-6">Input</p>
+            </div>
+
+            <!-- Viewer 2 -->
+            <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+              <model-viewer 
+              src="static/models/polar_bear/polar_bear_ours.glb"
+              alt="Baseline"
+              orientation="180deg 270deg 0deg"
+              style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+            </model-viewer>
+              <p class="is-size-6">Ours</p>
+            </div>
+
+
+                <!-- Viewer 1 -->
+            <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+              <model-viewer 
+                src="static/models/carrot/carrot.glb"
+                alt="Our Parrot"
+                auto-rotate camera-controls 
+                orientation="0deg 0deg 0deg"
+                style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+              </model-viewer>
+              <p class="is-size-6">Input</p>
+            </div>
+
+            <!-- Viewer 2 -->
+            <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+              <model-viewer 
+              src="static/models/carrot/carrot_ours.glb"
+              alt="Baseline"
+              orientation="180deg 270deg 0deg"
+              style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+            </model-viewer>
+              <p class="is-size-6">Ours</p>
+            </div>
+
+             
+              <!-- Viewer 1 -->
+              <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+                <model-viewer 
+                  src="static/models/bob/bob.glb"
+                  alt="Our Parrot"
+                  auto-rotate camera-controls 
+                  orientation="0deg 0deg 0deg"
+                  style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+                </model-viewer>
+                <p class="is-size-6">Input</p>
+              </div>
+  
+              <!-- Viewer 2 -->
+              <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+                <model-viewer 
+                src="static/models/bob/bob_ours.glb"
+                alt="Baseline"
+                orientation="180deg 270deg 0deg"
+                style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+              </model-viewer>
+                <p class="is-size-6">Ours</p>
+              </div>
+
+
+              <!-- Viewer 1 -->
+              <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+                <model-viewer 
+                  src="static/models/backpack/backpack.glb"
+                  alt="Our Parrot"
+                  auto-rotate camera-controls 
+                  orientation="0deg 0deg 0deg"
+                  style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+                </model-viewer>
+                <p class="is-size-6">Input</p>
+              </div>
+  
+              <!-- Viewer 2 -->
+              <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+                <model-viewer 
+                src="static/models/backpack/backpack_ours.glb"
+                alt="Baseline"
+                orientation="180deg 270deg 0deg"
+                style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+              </model-viewer>
+                <p class="is-size-6">Ours</p>
+              </div>
+              <!-- Viewer 1 -->
+              <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+                <model-viewer 
+                  src="static/models/cat/cat.glb"
+                  alt="Our Parrot"
+                  auto-rotate camera-controls 
+                  orientation="0deg 0deg 0deg"
+                  style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+                </model-viewer>
+                <p class="is-size-6">Input</p>
+              </div>
+  
+              <!-- Viewer 2 -->
+              <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+                <model-viewer 
+                src="static/models/cat/cat_ours.glb"
+                alt="Baseline"
+                orientation="180deg 270deg 0deg"
+                style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+              </model-viewer>
+                <p class="is-size-6">Ours</p>
+              </div>
+              <!-- Viewer 1 -->
+              <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+                <model-viewer 
+                  src="static/models/Blue/Blue.glb"
+                  alt="Our Parrot"
+                  auto-rotate camera-controls 
+                  orientation="0deg 0deg 0deg"
+                  style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+                </model-viewer>
+                <p class="is-size-6">Input</p>
+              </div>
+  
+              <!-- Viewer 2 -->
+              <div style="width: 23%; aspect-ratio: 1/1; text-align: center;">
+                <model-viewer 
+                src="static/models/Blue/Blue_ours.glb"
+                alt="Baseline"
+                orientation="180deg 270deg 0deg"
+                style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+              </model-viewer>
+                <p class="is-size-6">Ours</p>
+              </div>
+
+
+
+
+            <script type="application/json" id="viewer-sync-config">
+              {
+                "pairs": [[0,1],[2,3],[4,5],[6,7],[8,9], [10,11], [12,13], [14,15], [16,17], [18,19]]
+              }
+              </script>
+              <!-- 若全站尚未載入過 model-viewer，記得引入一次 -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+<style>
+  /* 防止文字或其他盒子覆蓋互動區 */
+  #viewer-grid model-viewer { pointer-events:auto; position:relative; z-index:1; }
+  #viewer-grid p { pointer-events:none; }
+</style>
+
+<script>
+(() => {
+  const grid = document.getElementById('viewer-grid');
+  const cfgEl = document.getElementById('viewer-sync-config');
+  if (!grid || !cfgEl) return;
+
+  const viewers = Array.from(grid.querySelectorAll('model-viewer'));
+  const cfg = JSON.parse(cfgEl.textContent || '{"pairs":[]}');
+
+  // 統一初始化（避免一開始看頭頂/角度不一）
+  viewers.forEach(v => {
+    v.style.touchAction = 'none';                 // 避免拖動時頁面捲動
+    v.setAttribute('camera-target', 'auto');      // 旋轉軸 = 模型中心
+    if (!v.hasAttribute('camera-orbit')) {
+      v.setAttribute('camera-orbit', '0deg 90deg auto'); // 稍微抬頭視角
+    }
+    v.setAttribute('field-of-view', '45deg');
+    v.setAttribute('min-camera-orbit', 'auto 5deg auto');
+    v.setAttribute('max-camera-orbit', 'auto 85deg auto');
+    v.autoRotate = false;                         // 先關自轉，互動後再視需要開
+  });
+
+  // 只同步角度（theta, phi）與 FOV；半徑用 auto，避免不同尺寸忽近忽遠
+  function copyAngles(src, dst) {
+    try {
+      const {theta, phi} = src.getCameraOrbit();
+      const nextOrbit = `${theta}rad ${phi}rad auto`;
+      if (dst.getAttribute('camera-orbit') !== nextOrbit) {
+        dst.setAttribute('camera-orbit', nextOrbit);
+      }
+      const fov = `${src.getFieldOfView()}deg`;
+      if (dst.getAttribute('field-of-view') !== fov) {
+        dst.setAttribute('field-of-view', fov);
+      }
+      // camera-target 維持 auto，不拷貝座標
+    } catch {
+      const orbit = src.getAttribute('camera-orbit') || '0deg 30deg auto';
+      const parts = orbit.split(/\s+/);
+      const next = `${parts[0]||'0deg'} ${parts[1]||'30deg'} auto`;
+      if (dst.getAttribute('camera-orbit') !== next) {
+        dst.setAttribute('camera-orbit', next);
+      }
+      const fov = src.getAttribute('field-of-view') || '45deg';
+      if (dst.getAttribute('field-of-view') !== fov) {
+        dst.setAttribute('field-of-view', fov);
+      }
+    }
+  }
+
+  function bindPair(a, b) {
+    let syncing = false;
+    let idleTimer = null;
+
+    const pauseAuto = () => { a.autoRotate = false; b.autoRotate = false; };
+    const resumeAutoLater = () => {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => { a.autoRotate = true; b.autoRotate = true; }, 1200);
+    };
+
+    function sync(from, to) {
+      if (syncing) return;
+      syncing = true;
+      copyAngles(from, to);
+      Promise.resolve().then(() => { syncing = false; }); // 快速解鎖，降低碰撞
+    }
+
+    // 雙向：拖任一邊另一邊跟
+    a.addEventListener('camera-change', () => sync(a, b));
+    b.addEventListener('camera-change', () => sync(b, a));
+
+    // 互動時先停自轉，放開後延遲恢復
+    [a, b].forEach(v => {
+      v.addEventListener('pointerdown', pauseAuto, {capture:true});
+      v.addEventListener('pointerup',   resumeAutoLater, {capture:true});
+      v.addEventListener('pointercancel', resumeAutoLater, {capture:true});
+      v.addEventListener('touchend',    resumeAutoLater, {capture:true});
+      v.addEventListener('mouseleave',  resumeAutoLater, {capture:true});
+    });
+
+    // 初始對齊（右邊對齊左邊）
+    copyAngles(a, b);
+  }
+
+  // 依 JSON 對應把成對 viewer 綁起來
+  (cfg.pairs || []).forEach(([i, j]) => {
+    const a = viewers[i], b = viewers[j];
+    if (a && b) bindPair(a, b);
+  });
+})();
+</script>
+              
+
 
   </div>
-</article>
-
----->
-
 </section>
 
-<section id="projects">
-  <h2>Projects</h2>
 
-  <article class="card pub">
-  <img class="avatar" src="images/llama.png" alt="llama" />   <div>
-      <h3>Knowledge Distillation for Parameter-Efficient Large Language Models</h3>
-      <p>
-Distilled knowledge from LLaMA-3.2-3B-Instruct into a smaller LLaMA-3.2-1B-Instruct model, using WikiText-2 and combined KL/MSE loss, achieving a perplexity of 11.72 on the student model.
-      </p>
-      <div class="links">
-        <a class="btn" href="https://github.com/yichuanH/KD_llama_1B-Knowledge-Distillation-for-LLaMA-3.2-1B" target="_blank" rel="noopener">Code</a>
-         <a class="btn" href="https://huggingface.co/YiChuanH/llama1B-finetuned" target="_blank" rel="noopener">Model</a>
+
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+        </div>
       </div>
     </div>
-  </article>
+  </div>
+</footer>
 
-    <article class="card pub">
-  <img class="avatar" src="images/apple.png" alt="llama" />   <div>
-      <h3>Layered Vectorization of Natural Images for Editable SVG Graphics</h3>
-      <p>
-       Converted natural images into layered SVGs for intuitive and editable graphics. Achieved structure-preserving vectorization for AI-assisted design and editing.
-      </p>
-      <div class="links">
-        <a class="btn" href="https://github.com/Su-Terry/Layered-Vectorization-Natural-Image" target="_blank" rel="noopener">Code</a>
-      </div>
-    </div>
-  </article>
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
 
-</section>
+    <!-- End of Statcounter Code -->
 
-    <!-- Contact / Resume -->
-    <section id="contact">
-      <h2>Contact</h2>
-      <div class="card">
-        <p>Email: <a href="mailto:jay@example.com">yichuanh.cs12@nycu.edu.tw</a></p>
-      </div>
-    </section>
-
-    <footer>
-      © <span id="year"></span> Yi-Chuan Huang · Last updated Oct 2025 · Built with vanilla HTML/CSS.
-    </footer>
-  </main>
-
-  <script>
-    // Set current year
-    document.getElementById('year').textContent = new Date().getFullYear();
-    // Mark active nav on scroll
-    const sections = [...document.querySelectorAll('main section')];
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        const id = e.target.getAttribute('id');
-        const link = document.querySelector(`header nav a[href="#${id}"]`);
-        if(link){ link.classList.toggle('active', e.isIntersecting && e.intersectionRatio > .4); }
-      });
-    }, { rootMargin: '-40% 0px -55% 0px', threshold:[0, .4, 1] });
-    sections.forEach(s => io.observe(s));
-  </script>
-</body>
-</html>
+  </body>
+  </html>
+<!-- rebuild -->
